@@ -93,9 +93,8 @@ const Footer = () => {
               <li>
                 <span className="font-medium text-foreground">Address:</span>
                 <br />
-                Sector 17, Chandigarh
-                <br />
-                Punjab, India - 160017
+Plot No. 501 A , Near SBI Bank Gali No. 3, Railway Station Rd,                <br />
+                 Daria, Chandigarh, 160101
               </li>
             </ul>
           </div>
