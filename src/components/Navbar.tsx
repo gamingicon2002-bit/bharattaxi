@@ -45,7 +45,7 @@ const Navbar = () => {
             onClick={() => scrollToSection("home")}
             className="text-xl lg:text-2xl font-bold text-primary hover:text-primary-hover transition-colors"
           >
-            North Hills Taxi
+            Bharat Taxi Service
           </button>
 
           {/* Desktop Navigation */}

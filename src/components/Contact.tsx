@@ -11,6 +11,7 @@ const Contact = () => {
     name: "",
     phone: "",
     message: "",
+    email:"",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,7 +22,7 @@ const Contact = () => {
     }
     console.log("Contact form submitted:", formData);
     toast.success("Thank you! We'll get back to you shortly.");
-    setFormData({ name: "", phone: "", message: "" });
+    setFormData({ name: "", phone: "", message: "" ,email: ""});
   };
 
   return (
@@ -51,7 +52,7 @@ const Contact = () => {
                     href="tel:+919876543210"
                     className="text-primary hover:underline text-lg"
                   >
-                    +91 98765 43210
+                    +91 98884 76943
                   </a>
                   <p className="text-sm text-muted-foreground mt-1">
                     Available 24×7 for bookings and support
@@ -73,7 +74,7 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     className="text-primary hover:underline text-lg"
                   >
-                    +91 98765 43210
+                    +91 98884 76943
                   </a>
                   <p className="text-sm text-muted-foreground mt-1">
                     Quick response for instant bookings
@@ -90,10 +91,10 @@ const Contact = () => {
                 <div>
                   <h4 className="font-bold mb-2">Email</h4>
                   <a
-                    href="mailto:info@northhillstaxi.com"
+                    href="mailto:bharattaxiservicechd@gmail.com"
                     className="text-primary hover:underline text-lg"
                   >
-                    info@northhillstaxi.com
+                    bharattaxiservicechd@gmail.com
                   </a>
                   <p className="text-sm text-muted-foreground mt-1">
                     For inquiries and custom packages
@@ -137,6 +138,15 @@ const Contact = () => {
                   placeholder="Enter your phone number"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                />
+              </div>
+                <div>
+                <label className="text-sm font-medium mb-2 block">Email</label>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
               <div>

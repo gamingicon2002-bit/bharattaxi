@@ -18,7 +18,7 @@ const About = () => {
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
               <div className="text-center p-8">
                 <h3 className="text-4xl lg:text-5xl font-bold text-primary mb-4">
-                  North Hills Taxi
+                  Bharat Taxi Service
                 </h3>
                 <p className="text-xl text-muted-foreground">
                   Your Trusted Travel Partner
@@ -31,7 +31,7 @@ const About = () => {
           <div className="space-y-6">
             <h2 className="text-3xl lg:text-4xl font-bold">About Us</h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              North Hills Taxi has been serving travelers across North India for over a decade. We
+              Bharat Taxi Service has been serving travelers across North India for over a decade. We
               specialize in providing safe, comfortable, and reliable transportation services to
               some of the most beautiful hill stations in India.
             </p>

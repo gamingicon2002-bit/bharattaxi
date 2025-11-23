@@ -33,7 +33,7 @@ const Footer = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold text-primary mb-3">North Hills Taxi</h3>
+            <h3 className="text-2xl font-bold text-primary mb-3">Bharat Taxi Service</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Your trusted travel partner for exploring the beautiful hills of North India. Safe,
               comfortable, and reliable journeys since 2013.
@@ -80,14 +80,14 @@ const Footer = () => {
                 <span className="font-medium text-foreground">Phone:</span>
                 <br />
                 <a href="tel:+919876543210" className="hover:text-primary">
-                  +91 98765 43210
+                  +91 98884 76943
                 </a>
               </li>
               <li>
                 <span className="font-medium text-foreground">Email:</span>
                 <br />
-                <a href="mailto:info@northhillstaxi.com" className="hover:text-primary">
-                  info@northhillstaxi.com
+                <a href="mailto:bharattaxiservicechd@gmail.com" className="hover:text-primary">
+                  bharattaxiservicechd@gmail.com
                 </a>
               </li>
               <li>
@@ -104,7 +104,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} North Hills Taxi. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Bharat Taxi Service. All rights reserved.</p>
             <div className="flex gap-6">
               <button className="hover:text-primary transition-colors">Privacy Policy</button>
               <button className="hover:text-primary transition-colors">Terms of Service</button>
