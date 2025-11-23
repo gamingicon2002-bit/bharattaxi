@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 160 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 15% 15%;
+
+    /* Fresh emerald green for eco-friendly branding */
+    --primary: 158 70% 42%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 158 70% 36%;
+
+    /* Soft teal for secondary */
+    --secondary: 170 45% 55%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Light mint backgrounds for sections */
+    --muted: 150 30% 96%;
+    --muted-foreground: 160 10% 45%;
+
+    /* Bright lime green accent */
+    --accent: 140 75% 50%;
+    --accent-foreground: 160 15% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 20% 88%;
+    --input: 150 20% 88%;
+    --ring: 158 70% 42%;
+
+    --radius: 0.75rem;
+
+    /* Hero gradient */
+    --gradient-hero: linear-gradient(135deg, hsl(158 70% 42%) 0%, hsl(140 75% 50%) 100%);
+    
+    /* Card shadows */
+    --shadow-card: 0 2px 8px -2px hsl(160 15% 15% / 0.08);
+    --shadow-card-hover: 0 8px 24px -4px hsl(160 15% 15% / 0.12);
+    
+    /* Smooth transitions */
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 160 25% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 160 20% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 160 20% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 158 65% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 158 65% 45%;
+
+    --secondary: 170 40% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 160 20% 20%;
+    --muted-foreground: 150 10% 65%;
+
+    --accent: 140 70% 55%;
+    --accent-foreground: 160 15% 15%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 160 15% 25%;
+    --input: 160 15% 25%;
+    --ring: 158 65% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
