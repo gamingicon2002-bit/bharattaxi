@@ -111,8 +111,8 @@ const Contact = () => {
                 <div>
                   <h4 className="font-bold mb-2">Office Address</h4>
                   <p className="text-muted-foreground">
-                    Sector 17, Chandigarh, Punjab<br />
-                    India - 160017
+              Plot No. 501 A , Near SBI Bank Gali No. 3, Railway Station Rd,                <br />
+                 Daria, Chandigarh, 160101
                   </p>
                 </div>
               </div>
