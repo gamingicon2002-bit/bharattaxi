@@ -33,7 +33,11 @@ const vehicles: Vehicle[] = [
   { id: 2, type: "SUV", capacityMin: 3, capacityMax: 7, ratePerKm: 18 },
   { id: 3, type: "Innova Crysta", capacityMin: 3, capacityMax: 7, ratePerKm: 20 },
   { id: 4, type: "Tempo 12 Seater", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
-  { id: 5, type: "Tempo 17 Seater", capacityMin: 13, capacityMax: 17, ratePerKm: 26 },
+    { id: 5, type: "maharaja temo travell", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
+
+      { id: 6, type: "force urbania traveller", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
+
+  { id: 7, type: "Tempo 17 Seater", capacityMin: 13, capacityMax: 17, ratePerKm: 26 },
   { id: 6, type: "Mini Bus 26 Seater", capacityMin: 18, capacityMax: 26, ratePerKm: 30 },
 ];
 
@@ -205,7 +209,19 @@ const HeroBooking = () => {
               )}
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Travel Date</label>
+                <label className="text-sm font-medium mb-2 block">Pickup Date</label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="date"
+                    className="pl-10"
+                    value={formData.date}
+                    onChange={(e) => handleInputChange("date", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-2 block">Drop Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
