@@ -19,9 +19,11 @@ interface Vehicle {
 interface BookingForm {
   from: string;
   to: string;
-  date: string;
+  pickupDate: string;
+  dropDate: string;
   members: number;
 }
+
 
 interface RouteDetails {
   distance: number;
@@ -52,12 +54,14 @@ const getMockDistance = (from: string, to: string): number => {
 };
 
 const HeroBooking = () => {
-  const [formData, setFormData] = useState<BookingForm>({
-    from: "",
-    to: "",
-    date: "",
-    members: 0,
-  });
+const [formData, setFormData] = useState<BookingForm>({
+  from: "",
+  to: "",
+  pickupDate: "",
+  dropDate: "",
+  members: 0,
+});
+
   const [distanceInKm, setDistanceInKm] = useState<number | null>(null);
   const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -90,19 +94,31 @@ const HeroBooking = () => {
   };
 
   const handleFindVehicles = () => {
-    if (!formData.from || !formData.to || !formData.date || formData.members <= 0) {
-      toast.error("Please fill all fields correctly");
-      return;
-    }
+  if (
+  !formData.from ||
+  !formData.to ||
+  !formData.pickupDate ||
+  !formData.dropDate ||
+  formData.members <= 0
+) {
+  toast.error("Please fill all fields correctly");
+  return;
+}
+
 
     if (!distanceInKm) {
       toast.error("Unable to calculate distance. Please select valid cities.");
       return;
     }
 
+    // const filtered = vehicles.filter(
+    //   (v) => formData.members >= v.capacityMin && formData.members <= v.capacityMax
+    // );
+
     const filtered = vehicles.filter(
-      (v) => formData.members >= v.capacityMin && formData.members <= v.capacityMax
-    );
+  (v) => v.capacityMax >= formData.members
+);
+
 
     if (filtered.length === 0) {
       toast.error("No vehicles available for the selected number of members");
@@ -132,6 +148,40 @@ const HeroBooking = () => {
       );
     }
   };
+
+
+const getTripDays = (pickup: string, drop: string) => {
+  if (!pickup || !drop) return 1;
+  const start = new Date(pickup);
+  const end = new Date(drop);
+  const diffTime = end.getTime() - start.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  return diffDays > 0 ? diffDays : 1;
+};
+
+const MAX_KM_PER_DAY = 250;
+
+const calculateChargeableKm = (distance: number, days: number) => {
+  const maxAllowedKm = days * MAX_KM_PER_DAY;
+  return Math.max(distance, maxAllowedKm);
+};
+
+const calculateTotalPrice = (
+  distance: number,
+  ratePerKm: number,
+  pickupDate: string,
+  dropDate: string
+) => {
+  const days = getTripDays(pickupDate, dropDate);
+  const chargeableKm = calculateChargeableKm(distance, days);
+  return {
+    days,
+    chargeableKm,
+    totalPrice: chargeableKm * ratePerKm,
+  };
+};
+
+
 
   return (
     <section id="home" className="relative min-h-screen pt-16 lg:pt-20">
@@ -208,28 +258,30 @@ const HeroBooking = () => {
                 </Card>
               )}
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Pickup Date</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    type="date"
-                    className="pl-10"
-                    value={formData.date}
-                    onChange={(e) => handleInputChange("date", e.target.value)}
-                  />
-                </div>
-              </div>
+            <div>
+  <label className="text-sm font-medium mb-2 block">Pickup Date</label>
+  <div className="relative">
+    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+    <Input
+      type="date"
+      className="pl-10"
+      value={formData.pickupDate}
+      onChange={(e) => handleInputChange("pickupDate", e.target.value)}
+    />
+  </div>
+</div>
+
               <div>
                 <label className="text-sm font-medium mb-2 block">Drop Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    type="date"
-                    className="pl-10"
-                    value={formData.date}
-                    onChange={(e) => handleInputChange("date", e.target.value)}
-                  />
+                 <Input
+  type="date"
+  className="pl-10"
+  value={formData.dropDate}
+  onChange={(e) => handleInputChange("dropDate", e.target.value)}
+/>
+
                 </div>
               </div>
 
@@ -270,7 +322,16 @@ const HeroBooking = () => {
         <div id="results" className="container mx-auto px-4 pb-16 relative z-10">
           <h2 className="text-3xl font-bold mb-8 text-center">Available Vehicles</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVehicles.map((vehicle) => (
+{filteredVehicles.map((vehicle) => {
+  const pricing = calculateTotalPrice(
+    distanceInKm || 0,
+    vehicle.ratePerKm,
+    formData.pickupDate,
+    formData.dropDate
+  );
+
+  return (
+
               <Card
                 key={vehicle.id}
                 className={`p-6 cursor-pointer transition-all hover:shadow-card-hover ${
@@ -299,7 +360,8 @@ const HeroBooking = () => {
                 </div>
                 <div className="border-t border-border pt-4 mb-4">
                   <p className="text-2xl font-bold text-primary">
-                    ₹{(distanceInKm || 0) * vehicle.ratePerKm}
+₹{pricing.totalPrice}
+
                   </p>
                   <p className="text-xs text-muted-foreground">Estimated total</p>
                 </div>
@@ -313,7 +375,8 @@ const HeroBooking = () => {
                   {selectedVehicle?.id === vehicle.id ? "Selected" : "Select Vehicle"}
                 </Button>
               </Card>
-            ))}
+  );
+})}
           </div>
         </div>
       )}
@@ -332,7 +395,10 @@ const HeroBooking = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date:</span>
-                <span className="font-medium">{formData.date}</span>
+     <span className="font-medium">
+  {formData.pickupDate} → {formData.dropDate}
+</span>
+
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Members:</span>

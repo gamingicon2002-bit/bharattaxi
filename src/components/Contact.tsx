@@ -14,16 +14,53 @@ const Contact = () => {
     email:"",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.message) {
-      toast.error("Please fill all fields");
-      return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!formData.name || !formData.phone || !formData.message) {
+    toast.error("Please fill all fields");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      "https://tourladningformbackend.vercel.app/api/contact",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to submit form");
     }
-    console.log("Contact form submitted:", formData);
+
+    const data = await res.json();
+    console.log("API response:", data);
+
     toast.success("Thank you! We'll get back to you shortly.");
-    setFormData({ name: "", phone: "", message: "" ,email: ""});
-  };
+
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      message: "",
+    });
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong. Please try again.");
+  }
+};
+
+
 
   return (
     <section id="contact" className="py-16 lg:py-24 bg-muted/30">
@@ -49,7 +86,7 @@ const Contact = () => {
                 <div>
                   <h4 className="font-bold mb-2">Call Us</h4>
                   <a
-                    href="tel:+919876543210"
+                    href="tel:+9888476943"
                     className="text-primary hover:underline text-lg"
                   >
                     +91 98884 76943
@@ -69,7 +106,7 @@ const Contact = () => {
                 <div>
                   <h4 className="font-bold mb-2">WhatsApp</h4>
                   <a
-                    href="https://wa.me/919876543210?text=Hello, I want to book a taxi"
+                    href="https://wa.me/9888476943?text=Hello, I want to book a taxi"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline text-lg"
@@ -110,10 +147,19 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold mb-2">Office Address</h4>
-                  <p className="text-muted-foreground">
-              Plot No. 501 A , Near SBI Bank Gali No. 3, Railway Station Rd,                <br />
-                 Daria, Chandigarh, 160101
-                  </p>
+                <p className="text-muted-foreground">
+  <a
+    href="https://maps.app.goo.gl/2WQcnSHWtF8a4uo1A"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:underline"
+  >
+    Plot No. 501 A, Near SBI Bank Gali No. 3, Railway Station Rd,
+    <br />
+    Daria, Chandigarh, 160101
+  </a>
+</p>
+
                 </div>
               </div>
             </Card>

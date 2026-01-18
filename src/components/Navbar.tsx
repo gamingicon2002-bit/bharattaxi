@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, MessageCircle, Menu, X } from "lucide-react";
+import logo from "../assets/logo.jpeg";
+import logo1 from "../assets/logo1.png"
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,13 +42,19 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <button
-            onClick={() => scrollToSection("home")}
-            className="text-xl lg:text-2xl font-bold text-primary hover:text-primary-hover transition-colors"
-          >
-            Bharat Taxi Service
-          </button>
+        {/* Logo */}
+<button
+  onClick={() => scrollToSection("home")}
+  className="flex items-center gap-2 text-xl lg:text-2xl font-bold text-primary hover:text-primary-hover transition-colors"
+>
+  <img
+    src={logo}      
+    alt="Bharat Taxi Service Logo"
+    className="h-8 w-auto lg:h-10"
+  />
+  <span>Bharat Taxi Service</span>
+</button>
+
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
@@ -67,7 +75,7 @@ const Navbar = () => {
               variant="outline"
               size="sm"
               className="gap-2"
-              onClick={() => window.open("tel:+919876543210")}
+              onClick={() => window.open("tel:+9888476943")}
             >
               <Phone className="w-4 h-4" />
               Call Now
@@ -77,7 +85,7 @@ const Navbar = () => {
               className="gap-2 bg-primary hover:bg-primary-hover"
               onClick={() =>
                 window.open(
-                  "https://wa.me/919876543210?text=Hello, I want to book a taxi"
+                  "https://wa.me/9888476943?text=Hello, I want to book a taxi"
                 )
               }
             >
@@ -116,7 +124,7 @@ const Navbar = () => {
                 <Button
                   variant="outline"
                   className="gap-2 w-full"
-                  onClick={() => window.open("tel:+919876543210")}
+                  onClick={() => window.open("tel:+9888476943")}
                 >
                   <Phone className="w-4 h-4" />
                   Call Now
@@ -125,7 +133,7 @@ const Navbar = () => {
                   className="gap-2 w-full bg-primary hover:bg-primary-hover"
                   onClick={() =>
                     window.open(
-                      "https://wa.me/919876543210?text=Hello, I want to book a taxi"
+                      "https://wa.me/9888476943?text=Hello, I want to book a taxi"
                     )
                   }
                 >

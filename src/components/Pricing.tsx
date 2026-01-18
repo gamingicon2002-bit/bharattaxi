@@ -10,20 +10,32 @@ const pricingData: Record<
   { name: string; rate: string }[]
 > = {
   Sedan: [
-    { name: "Sedan (Dzire / Etios)", rate: "₹15/km" },
+    { name: "Maruti Swift Dzire", rate: "₹12/km" },
+    { name: "Toyota Etios", rate: "₹12/km" },
+    { name: "Toyota Glanza", rate: "₹12/km" },
+    { name: "Hyundai Aura", rate: "₹12/km" },
   ],
+
   SUV: [
-    { name: "SUV (Ertiga)", rate: "₹18/km" },
-    { name: "Innova Crysta", rate: "₹20/km" },
+    { name: "Maruti Ertiga", rate: "₹15/km" },
+    { name: "Toyota Innova Crysta", rate: "₹18/km" },
+    { name: "Toyota Hycross", rate: "₹20/km" },
   ],
+
+  Urbania: [
+    { name: "Force Urbania 12 Seater", rate: "₹30/km" },
+    { name: "Force Urbania 16 Seater", rate: "₹35/km" },
+  ],
+
   Tempo: [
-    { name: "Tempo Traveller 12 Seater", rate: "₹24/km" },
-    { name: "Tempo Traveller 17 Seater", rate: "₹26/km" },
-  ],
-  Bus: [
-    { name: "Mini Bus 26 Seater", rate: "₹30/km" },
+    { name: "Tempo Traveller 12 Seater", rate: "₹25/km" },
+    { name: "Tempo Traveller 12 Seater Maharaja", rate: "₹28/km" },
+    { name: "Tempo Traveller 16 Seater", rate: "₹30/km" },
+    { name: "Tempo Traveller 20 Seater", rate: "₹32/km" },
+    { name: "Tempo Traveller 25 Seater", rate: "₹35/km" },
   ],
 };
+
 
 const Pricing = () => {
   const categories = Object.keys(pricingData);
@@ -109,7 +121,6 @@ const Pricing = () => {
             </h3>
             <ul className="space-y-2 text-sm">
               {[
-                "Driver allowance",
                 "Fuel charges",
                 "Basic insurance",
                 "Vehicle maintenance",
@@ -129,9 +140,10 @@ const Pricing = () => {
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[
-                "Toll & parking charges",
+                "Toll Tax & parking charges",
                 "State permit charges",
-                "Driver accommodation (multi-day trips)",
+                      "Driver allowance",
+
               ].map((item) => (
                 <li key={item} className="flex gap-2">
                   <span className="w-1.5 h-1.5 mt-2 rounded-full bg-secondary" />

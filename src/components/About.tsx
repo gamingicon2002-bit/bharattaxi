@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Award, MapPin, Users, Shield } from "lucide-react";
-
+import logo from "../assets/logo.jpeg";
+import logo1 from "../assets/logo1.png"
 const About = () => {
   const stats = [
     { icon: Award, value: "10+", label: "Years Experience" },
@@ -13,19 +14,19 @@ const About = () => {
     <section id="about" className="py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left - Image */}
-          <div className="relative">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-              <div className="text-center p-8">
-                <h3 className="text-4xl lg:text-5xl font-bold text-primary mb-4">
-                  Bharat Taxi Service
-                </h3>
-                <p className="text-xl text-muted-foreground">
-                  Your Trusted Travel Partner
-                </p>
-              </div>
-            </div>
-          </div>
+
+      <div className="relative">
+<img
+        src={logo} 
+        alt="Bharat Taxi Service Logo"
+        className="w-full w-auto mx-auto mb-6 aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center"
+      >   
+      
+   
+  </img>
+
+</div>
+
 
           {/* Right - Content */}
           <div className="space-y-6">

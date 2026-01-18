@@ -1,5 +1,6 @@
 import { MapPin } from "lucide-react";
-
+import logo from "../assets/logo.jpeg";
+import logo1 from "../assets/logo1.png"
 const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -31,16 +32,25 @@ const Footer = () => {
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12 lg:py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
-          <div>
-            <h3 className="text-2xl font-bold text-primary mb-3">Bharat Taxi Service</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Your trusted travel partner for exploring the beautiful hills of North India. Safe,
-              comfortable, and reliable journeys since 2013.
-            </p>
-          </div>
+        <div>
+  <div className="flex items-center gap-3 mb-3">
+    <img
+      src={logo1}
+      alt="Bharat Taxi Service Logo"
+      className="h-10 w-auto"
+    />
+    <h3 className="text-2xl font-bold text-primary">
+      Bharat Taxi Service
+    </h3>
+  </div>
 
-          {/* Quick Links */}
+  <p className="text-sm text-muted-foreground leading-relaxed">
+    Your trusted travel partner for exploring the beautiful hills of North India.
+    Safe, comfortable, and reliable journeys since 2013.
+  </p>
+</div>
+
+
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
@@ -79,7 +89,7 @@ const Footer = () => {
               <li>
                 <span className="font-medium text-foreground">Phone:</span>
                 <br />
-                <a href="tel:+919876543210" className="hover:text-primary">
+                <a href="tel:+9888476943" className="hover:text-primary">
                   +91 98884 76943
                 </a>
               </li>
@@ -91,11 +101,20 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <span className="font-medium text-foreground">Address:</span>
-                <br />
-Plot No. 501 A , Near SBI Bank Gali No. 3, Railway Station Rd,                <br />
-                 Daria, Chandigarh, 160101
-              </li>
+  <span className="font-medium text-foreground">Address:</span>
+  <br />
+  <a
+    href="https://maps.app.goo.gl/2WQcnSHWtF8a4uo1A"
+    target="_blank"
+    rel="noopener noreferrer"
+    className=" hover:underline"
+  >
+    Plot No. 501 A, Near SBI Bank Gali No. 3, Railway Station Rd,
+    <br />
+    Daria, Chandigarh, 160101
+  </a>
+</li>
+
             </ul>
           </div>
         </div>

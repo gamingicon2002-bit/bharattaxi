@@ -8,6 +8,7 @@ import Reviews from "@/components/Reviews";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import FloatingCallButton from "@/components/FloatingCallButton";
 
 const Index = () => {
   return (
@@ -22,6 +23,8 @@ const Index = () => {
       <About />
       <Contact />
       <Footer />
+            <FloatingCallButton />
+
     </div>
   );
 };
