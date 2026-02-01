@@ -1,6 +1,8 @@
 import { MapPin } from "lucide-react";
 import logo from "../assets/logo.jpeg";
 import logo1 from "../assets/logo1.png"
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -37,7 +39,7 @@ const Footer = () => {
     <img
       src={logo1}
       alt="Bharat Taxi Service Logo"
-      className="h-10 w-auto"
+className="h-12 w-auto lg:h-20"
     />
     <h3 className="text-2xl font-bold text-primary">
       Bharat Taxi Service
@@ -123,10 +125,21 @@ const Footer = () => {
         <div className="border-t border-border pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>© {new Date().getFullYear()} Bharat Taxi Service. All rights reserved.</p>
-            <div className="flex gap-6">
-              <button className="hover:text-primary transition-colors">Privacy Policy</button>
-              <button className="hover:text-primary transition-colors">Terms of Service</button>
-            </div>
+          <div className="flex gap-6">
+  <Link
+    to="/privacy"
+    className="hover:text-primary transition-colors"
+  >
+    Privacy Policy
+  </Link>
+  <Link
+    to="/terms"
+    className="hover:text-primary transition-colors"
+  >
+    Terms of Service
+  </Link>
+</div>
+
           </div>
         </div>
       </div>

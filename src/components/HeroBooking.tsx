@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import heroImage from "@/assets/hero-mountain-road.jpg";
 import CityCombobox from "./CityCombobox";
 import { northIndiaCities, calculateDistance, getRouteInfo } from "@/data/cities";
+import { CheckCircle, AlertCircle, Receipt } from "lucide-react";
 
 interface Vehicle {
   id: number;
@@ -31,17 +32,30 @@ interface RouteDetails {
 }
 
 const vehicles: Vehicle[] = [
-  { id: 1, type: "Sedan", capacityMin: 1, capacityMax: 4, ratePerKm: 15 },
-  { id: 2, type: "SUV", capacityMin: 3, capacityMax: 7, ratePerKm: 18 },
-  { id: 3, type: "Innova Crysta", capacityMin: 3, capacityMax: 7, ratePerKm: 20 },
-  { id: 4, type: "Tempo 12 Seater", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
-    { id: 5, type: "maharaja temo travell", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
+  // 🚗 Sedan (1–4)
+  { id: 1, type: "Sedan (Swift Dzire / Etios / Glanza / Aura)", capacityMin: 1, capacityMax: 4, ratePerKm: 12 },
 
-      { id: 6, type: "force urbania traveller", capacityMin: 8, capacityMax: 12, ratePerKm: 24 },
+  // 🚙 SUV (4–7)
+  { id: 2, type: "SUV (Maruti Ertiga)", capacityMin: 4, capacityMax: 7, ratePerKm: 15 },
+  { id: 3, type: "SUV (Innova Crysta)", capacityMin: 4, capacityMax: 7, ratePerKm: 18 },
+  { id: 4, type: "SUV (Toyota Hycross)", capacityMin: 4, capacityMax: 7, ratePerKm: 20 },
 
-  { id: 7, type: "Tempo 17 Seater", capacityMin: 13, capacityMax: 17, ratePerKm: 26 },
-  { id: 6, type: "Mini Bus 26 Seater", capacityMin: 18, capacityMax: 26, ratePerKm: 30 },
+  // 🚐 Urbania
+  { id: 5, type: "Urbania 12 Seater", capacityMin: 8, capacityMax: 12, ratePerKm: 30 },
+  { id: 6, type: "Urbania 16 Seater", capacityMin: 13, capacityMax: 16, ratePerKm: 35 },
+
+  // 🚌 Tempo Traveller
+  { id: 7, type: "Tempo Traveller 12 Seater", capacityMin: 8, capacityMax: 12, ratePerKm: 25 },
+  { id: 8, type: "Tempo Traveller 12 Seater Maharaja", capacityMin: 8, capacityMax: 12, ratePerKm: 28 },
+  { id: 9, type: "Tempo Traveller 16 Seater", capacityMin: 13, capacityMax: 16, ratePerKm: 30 },
+  { id: 10, type: "Tempo Traveller 20 Seater", capacityMin: 17, capacityMax: 20, ratePerKm: 32 },
+  { id: 11, type: "Tempo Traveller 25 Seater", capacityMin: 21, capacityMax: 25, ratePerKm: 35 },
 ];
+const today = new Date().toISOString().split("T")[0];
+
+
+
+
 
 const getMockDistance = (from: string, to: string): number => {
   // Try to get real distance from matrix first
@@ -104,6 +118,10 @@ const [formData, setFormData] = useState<BookingForm>({
   toast.error("Please fill all fields correctly");
   return;
 }
+if (formData.dropDate < formData.pickupDate) {
+  toast.error("Drop date must be same or after pickup date");
+  return;
+}
 
 
     if (!distanceInKm) {
@@ -141,13 +159,36 @@ const [formData, setFormData] = useState<BookingForm>({
     }, 100);
   };
 
-  const handleProceedToBook = () => {
-    if (selectedVehicle) {
-      toast.success(
-        `Thank you! We'll contact you shortly to confirm your booking for ${selectedVehicle.type}.`
-      );
-    }
-  };
+const handleProceedToBook = () => {
+  if (!selectedVehicle || !distanceInKm || !selectedPricing) return;
+
+  const fromCity = northIndiaCities.find(c => c.id === formData.from)?.name;
+  const toCity = northIndiaCities.find(c => c.id === formData.to)?.name;
+
+  const message = `
+New Taxi Booking Request
+
+Route: ${fromCity} to ${toCity}
+Travel Dates: ${formData.pickupDate} to ${formData.dropDate}
+Number of Passengers: ${formData.members}
+
+Selected Vehicle: ${selectedVehicle.type}
+
+Distance: Approximately ${distanceInKm} km
+Trip Duration: ${selectedPricing.days} days
+Chargeable Distance: ${selectedPricing.chargeableKm} km
+Rate: ₹${selectedVehicle.ratePerKm} per km
+Estimated Total Fare: ₹${selectedPricing.totalPrice}
+
+Kindly confirm availability and final pricing.
+  `;
+
+  const encodedMessage = encodeURIComponent(message.trim());
+
+  window.open(`https://wa.me/919888476943?text=${encodedMessage}`, "_blank");
+};
+
+
 
 
 const getTripDays = (pickup: string, drop: string) => {
@@ -181,6 +222,15 @@ const calculateTotalPrice = (
   };
 };
 
+const selectedPricing =
+  selectedVehicle && distanceInKm
+    ? calculateTotalPrice(
+        distanceInKm,
+        selectedVehicle.ratePerKm,
+        formData.pickupDate,
+        formData.dropDate
+      )
+    : null;
 
 
   return (
@@ -221,7 +271,7 @@ const calculateTotalPrice = (
           </div>
 
           {/* Right Side - Booking Calculator */}
-          <Card className="p-6 lg:p-8 shadow-card-hover bg-card/95 backdrop-blur-sm">
+    <Card className="p-6 lg:p-8 shadow-card-hover bg-card/95 backdrop-blur-sm">
             <h2 className="text-2xl font-bold mb-6">Book Your Ride</h2>
             <div className="space-y-4">
               <CityCombobox
@@ -262,12 +312,23 @@ const calculateTotalPrice = (
   <label className="text-sm font-medium mb-2 block">Pickup Date</label>
   <div className="relative">
     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-    <Input
-      type="date"
-      className="pl-10"
-      value={formData.pickupDate}
-      onChange={(e) => handleInputChange("pickupDate", e.target.value)}
-    />
+<Input
+  type="date"
+  className="pl-10"
+  min={today}
+  value={formData.pickupDate}
+  onChange={(e) => {
+    const selected = e.target.value;
+    handleInputChange("pickupDate", selected);
+
+    // If drop date is before new pickup date → reset drop date
+    if (formData.dropDate && selected > formData.dropDate) {
+      handleInputChange("dropDate", "");
+      toast.error("Drop date reset. Please select a new drop date.");
+    }
+  }}
+/>
+
   </div>
 </div>
 
@@ -275,18 +336,30 @@ const calculateTotalPrice = (
                 <label className="text-sm font-medium mb-2 block">Drop Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                 <Input
+<Input
   type="date"
   className="pl-10"
+  min={formData.pickupDate || today}
   value={formData.dropDate}
-  onChange={(e) => handleInputChange("dropDate", e.target.value)}
+  onChange={(e) => {
+    const selected = e.target.value;
+
+    if (formData.pickupDate && selected < formData.pickupDate) {
+      toast.error("Drop date cannot be before pickup date");
+      return;
+    }
+
+    handleInputChange("dropDate", selected);
+  }}
 />
+
 
                 </div>
               </div>
 
               <div>
                 <label className="text-sm font-medium mb-2 block">Total Members</label>
+                
                 <div className="relative">
                   <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
@@ -350,14 +423,21 @@ const calculateTotalPrice = (
                   </div>
                   <Car className="w-8 h-8 text-primary" />
                 </div>
-                <div className="space-y-2 mb-4">
-                  <p className="text-sm">
-                    <span className="font-medium">Rate:</span> ₹{vehicle.ratePerKm}/km
-                  </p>
-                  <p className="text-sm">
-                    <span className="font-medium">Distance:</span> ~{distanceInKm} km
-                  </p>
-                </div>
+            <div className="space-y-2 mb-4 text-sm">
+  <p>
+    <span className="font-medium">Distance:</span> ~{distanceInKm} km
+  </p>
+  <p>
+    <span className="font-medium">Trip:</span> {pricing.days} days
+  </p>
+  <p>
+    <span className="font-medium">Min. Chargeable:</span> {pricing.chargeableKm} km
+  </p>
+  <p>
+    <span className="font-medium">Rate:</span> ₹{vehicle.ratePerKm}/km
+  </p>
+</div>
+
                 <div className="border-t border-border pt-4 mb-4">
                   <p className="text-2xl font-bold text-primary">
 ₹{pricing.totalPrice}
@@ -382,60 +462,107 @@ const calculateTotalPrice = (
       )}
 
       {/* Trip Summary */}
-      {selectedVehicle && (
-        <div id="trip-summary" className="container mx-auto px-4 pb-16 relative z-10">
-          <Card className="max-w-2xl mx-auto p-6 lg:p-8 shadow-card-hover">
-            <h2 className="text-2xl font-bold mb-6">Trip Summary</h2>
-            <div className="space-y-4 mb-6">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Route:</span>
-                <span className="font-medium">
-                  {northIndiaCities.find(c => c.id === formData.from)?.name} → {northIndiaCities.find(c => c.id === formData.to)?.name}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Date:</span>
-     <span className="font-medium">
-  {formData.pickupDate} → {formData.dropDate}
-</span>
+{selectedVehicle && (
+  <div id="trip-summary" className="container mx-auto px-4 pb-16 relative z-10">
+    <Card className="max-w-3xl mx-auto p-6 lg:p-8 shadow-card-hover bg-white border border-border">
+      
+      <h2 className="text-2xl font-bold mb-6 text-center">Trip Summary</h2>
 
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Members:</span>
-                <span className="font-medium">{formData.members}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Vehicle:</span>
-                <span className="font-medium">{selectedVehicle.type}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Distance:</span>
-                <span className="font-medium">~{distanceInKm} km</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Rate:</span>
-                <span className="font-medium">₹{selectedVehicle.ratePerKm}/km</span>
-              </div>
-              <div className="border-t border-border pt-4 flex justify-between text-lg">
-                <span className="font-bold">Total Estimated Price:</span>
-                <span className="font-bold text-primary text-2xl">
-                  ₹{(distanceInKm || 0) * selectedVehicle.ratePerKm}
-                </span>
-              </div>
-            </div>
-            <Button
-              className="w-full bg-primary hover:bg-primary-hover text-lg h-12"
-              onClick={handleProceedToBook}
-            >
-              Proceed to Book
-            </Button>
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              *Price is estimated. Final price may vary based on actual distance, tolls, and
-              parking charges.
-            </p>
-          </Card>
+      {/* Trip Overview */}
+      <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4 mb-8 text-sm">
+        <div>
+          <p className="text-muted-foreground">Route</p>
+          <p className="font-semibold">
+            {northIndiaCities.find(c => c.id === formData.from)?.name} to{" "}
+            {northIndiaCities.find(c => c.id === formData.to)?.name}
+          </p>
         </div>
-      )}
+
+        <div>
+          <p className="text-muted-foreground">Travel Dates</p>
+          <p className="font-semibold">
+            {formData.pickupDate} to {formData.dropDate}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-muted-foreground">Total Duration</p>
+          <p className="font-semibold">{selectedPricing?.days} days</p>
+        </div>
+
+        <div>
+          <p className="text-muted-foreground">Passengers</p>
+          <p className="font-semibold">{formData.members}</p>
+        </div>
+
+        <div>
+          <p className="text-muted-foreground">Vehicle</p>
+          <p className="font-semibold">{selectedVehicle.type}</p>
+        </div>
+
+        <div>
+          <p className="text-muted-foreground">Estimated Distance</p>
+          <p className="font-semibold">~{distanceInKm} km</p>
+        </div>
+      </div>
+
+      {/* Fare Breakdown */}
+      <div className="border rounded-lg p-5 mb-8 bg-muted/30">
+        <h3 className="font-semibold mb-4">Fare Breakdown</h3>
+
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span>Minimum Chargeable Distance</span>
+            <span>{selectedPricing?.chargeableKm} km</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span>Rate per Kilometer</span>
+            <span>₹{selectedVehicle.ratePerKm}</span>
+          </div>
+
+          <div className="border-t pt-3 flex justify-between font-bold text-lg">
+            <span>Total Estimated Fare</span>
+            <span className="text-primary">₹{selectedPricing?.totalPrice}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Inclusions / Exclusions */}
+      <div className="grid sm:grid-cols-2 gap-8 mb-8 text-sm">
+        <div>
+          <h4 className="font-semibold mb-3 text-green-600">Included in Fare</h4>
+          <ul className="space-y-2 text-muted-foreground">
+            <li>Fuel charges</li>
+            <li>Basic insurance</li>
+            <li>Vehicle maintenance</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-3 text-red-500">Additional Charges</h4>
+          <ul className="space-y-2 text-muted-foreground">
+            <li>Toll tax and parking charges</li>
+            <li>State permit charges</li>
+            <li>Driver allowance (per day)</li>
+          </ul>
+        </div>
+      </div>
+
+      <Button
+        className="w-full bg-primary hover:bg-primary-hover text-lg h-12"
+        onClick={handleProceedToBook}
+      >
+        Book Now on WhatsApp
+      </Button>
+
+      <p className="text-xs text-muted-foreground text-center mt-4">
+        Final fare may vary depending on actual travel distance, route conditions, tolls, and parking fees.
+      </p>
+    </Card>
+  </div>
+)}
+
     </section>
   );
 };
