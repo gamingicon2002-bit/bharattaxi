@@ -169,7 +169,7 @@ const handleProceedToBook = () => {
 New Taxi Booking Request
 
 Route: ${fromCity} to ${toCity}
-Travel Dates: ${formData.pickupDate} to ${formData.dropDate}
+Travel Dates: ${formatDate(formData.pickupDate)} to ${formatDate(formData.dropDate)}
 Number of Passengers: ${formData.members}
 
 Selected Vehicle: ${selectedVehicle.type}
@@ -231,6 +231,17 @@ const selectedPricing =
         formData.dropDate
       )
     : null;
+
+
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
 
 
   return (

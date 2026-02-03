@@ -81,7 +81,7 @@ className="h-12 w-auto lg:h-20"
           <span className="h-5 w-px bg-border"></span>
 
           {/* Legal Links */}
-          <button
+          {/* <button
             onClick={() => navigate("/terms")}
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
@@ -92,7 +92,7 @@ className="h-12 w-auto lg:h-20"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
             Privacy
-          </button>
+          </button> */}
         </div>
 
         {/* CTA Buttons */}
