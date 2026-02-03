@@ -489,12 +489,8 @@ const formatDate = (dateStr: string) => {
           </p>
         </div>
 
-        <div>
-          <p className="text-muted-foreground">Travel Dates</p>
-          <p className="font-semibold">
-            {formData.pickupDate} to {formData.dropDate}
-          </p>
-        </div>
+    
+
 
         <div>
           <p className="text-muted-foreground">Total Duration</p>
